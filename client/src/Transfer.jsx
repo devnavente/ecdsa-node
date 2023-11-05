@@ -1,7 +1,10 @@
 import { useState } from "react";
 import server from "./server";
+import { secp256k1 } from '@noble/curves/secp256k1';
+import { toHex } from 'ethereum-cryptography/utils';
+import { hashMessage } from "./scripts/utils";
 
-function Transfer({ address, setBalance }) {
+function Transfer({ address, setBalance, privateKey, transactions, setTransactions }) {
   const [sendAmount, setSendAmount] = useState("");
   const [recipient, setRecipient] = useState("");
 
@@ -18,6 +21,17 @@ function Transfer({ address, setBalance }) {
         amount: parseInt(sendAmount),
         recipient,
       });
+
+      const timestamp = Date.now().toString();
+      const message = hashMessage(timestamp);
+      const signature = secp256k1.sign(message, privateKey).toCompactHex();
+
+      const transaction = {
+        message,
+        signature
+      };
+
+      setTransactions([...transactions, transaction]);
       setBalance(balance);
     } catch (ex) {
       alert(ex.response.data.message);
