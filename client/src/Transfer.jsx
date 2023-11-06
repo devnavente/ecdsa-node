@@ -1,7 +1,6 @@
 import { useState } from "react";
 import server from "./server";
 import { secp256k1 } from '@noble/curves/secp256k1';
-import { toHex } from 'ethereum-cryptography/utils';
 import { hashMessage } from "./scripts/utils";
 
 function Transfer({ address, setBalance, privateKey, transactions, setTransactions }) {

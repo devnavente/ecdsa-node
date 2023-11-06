@@ -7,9 +7,6 @@ const { toHex } = require('ethereum-cryptography/utils');
  */
 const generateAddress = () => {
     const privateKey = secp.utils.randomPrivateKey();
-    //const message = new Uint8Array(32).fill(1);
-    
-    //const signature = secp.sign(message, privateKey).toCompactHex();
     
     const publicKey = secp.getPublicKey(privateKey);
     const address = toHex(publicKey.slice(-20));
@@ -17,8 +14,6 @@ const generateAddress = () => {
     console.log('NEW ADDRESS--------------------------');
     console.log('Private Key ' + toHex(privateKey));
     console.log('Address ' + address);
-
-    //let sig = secp.Signature.fromCompact(signature.toCompactHex());
 
     return address;
 }
